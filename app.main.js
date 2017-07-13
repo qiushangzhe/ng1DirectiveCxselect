@@ -22,7 +22,11 @@ var qiushangzhe = {
         child: [{
             name: "西红柿",
             child: [{
-                name: "大苹果"
+                name: "大苹果",
+                child:[
+                    {name:"1px"},
+                    {name:"2px",child:[{name:"红色的"},{name:"绿色的"}]}
+                ]
             }, {
                 name: "小苹果（圣女果）"
             }]
