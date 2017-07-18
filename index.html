@@ -4,13 +4,15 @@
         <meta charset="utf-8">
         <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
         <title>angular directive</title>
-        <link rel="stylesheet" href="reset.css">
         <link rel="stylesheet" href="./main.css">
     </head>
     <body ng-app="cool" ng-controller="mainController">
-        <button ng-click="data.isOpen = true;" class="open-button">打开面板</button>
+        <button ng-click="showThreeLink()" class="open-button">打开面板</button>
         <three-link ng-show="data.isOpen" ng-click="data.isOpen = false;"></three-link>
-        <script src="http://cdn.bootcss.com/angular.js/1.6.5/angular.min.js"></script>
-        <script src="./app.main.js" charset="utf-8"></script>
+        <script src="./angular.js"></script>
+
+        <!-- <script src="./app.main.js" charset="utf-8"></script> -->
+        <script src="./threeLink.directive.js" charset="utf-8"></script>
+        <script src="./collectionResult.value.js" charset="utf-8"></script>
     </body>
 </html>

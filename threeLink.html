@@ -3,10 +3,10 @@
     <!--主要区域-->
     <div class="content-box" ng-click="$event.stopPropagation();">
         <ul class="content-header">
-            <li ng-repeat="item in indexList" ng-click="clickHeaderItem($index,item)">{{item.target.name}}</li>
+            <li ng-repeat="item in header_showList" ng-click="clickHeaderItem($index,item)">{{item}}</li>
         </ul>
         <ul class="roll-list-box">
-            <li class='roll-list-item' ng-repeat="item in nowChildList" ng-click="selectTarget(item,nowChildList)">{{item.name}}</li>
+            <li class='roll-list-item' ng-repeat="item in showList" ng-click="selectItem(item,showList)" ng-class="{'is-select':item.isSelect}">{{item.name}}{{item.isSelect}}</li>
         </ul>
     </div>
 </div>

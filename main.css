@@ -109,3 +109,7 @@ body{
     line-height: 50px;
     border-bottom:1px solid #ddd;
 }
+
+.is-select{
+	background-color:green;
+}

@@ -81,7 +81,6 @@ app.directive('threeLink', function() {
             }
 
             function init() {
-
                 for (var i in qiushangzhe.type) {
                     var buffer = {
                         target: {
