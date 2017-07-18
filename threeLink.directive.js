@@ -41,7 +41,7 @@ app.directive('threeLink', function(collectionResult) {
 				初始化当前的directive
 			*/
 			function initDirective() {
-				console.log('$scope.bodyData是',$scope.bodyData);
+				// console.log('$scope.bodyData是',$scope.bodyData);
 				// 当前显示的列表 （考虑两种情况，1. 默认打开 2. 已经有数据的打开）
 				$scope.showList = $scope.bodyData;
 				initBaseSelected($scope.bodyData);
@@ -73,11 +73,15 @@ app.directive('threeLink', function(collectionResult) {
 				当用户选中某一个项目的回掉函数
 			*/
 			$scope.selectItem = function(item, showList) {
-				judgeMultiSelect(item) ? multiSelect(item, showList) : (item.isSelect = true);
+				if(judgeMultiSelect(item)){
+					multiSelect(item, showList)
+				}else{
+					item.isSelect = true
+				}
 				//将当前同组所有item的isSelect状态设置成false
 				clearSelectStatus(item, showList);
 				//判断是否需要自动关闭
-				if(judgeAutoCloseDirective(item)){
+				if(judgeAutoCloseDirective(item,showList)){
 					$scope.closeDirective();
 				}
 				$scope.header_showList[item.deep] = $scope.headerData[item.deep];
@@ -130,12 +134,7 @@ app.directive('threeLink', function(collectionResult) {
 			*/
 			function multiSelect(item, list) {
 				//判断同层已经选中的个数
-				var config = {};
-				var nowSelectedNum = 0;
-				config = getMultiSelectConf(item);
-				nowSelectedNum = judgeNowSelectedNum(list);
-				console.log(nowSelectedNum, config.maxNum);
-				if (nowSelectedNum >= config.maxNum) {
+				if (checkMultiSelectMax(item,list)) {
 					if (item.isSelect) {
 						item.isSelect = !item.isSelect;
 					}
@@ -143,7 +142,21 @@ app.directive('threeLink', function(collectionResult) {
 					item.isSelect = !item.isSelect;
 				}
 			};
-
+			/*
+				判断本层是否已经多选到了最大值
+			*/
+			function checkMultiSelectMax(item,list){
+				var config = {};
+				var nowSelectedNum = 0;
+				config = getMultiSelectConf(item);
+				nowSelectedNum = judgeNowSelectedNum(list);
+				if(nowSelectedNum >= config.maxNum){
+					// 已经选多了
+					return true;
+				}else{
+					return false;
+				}
+			}
 			/*
 				获取某一层已经选中的item数
 			*/
@@ -174,8 +187,16 @@ app.directive('threeLink', function(collectionResult) {
 			/*
 				判断是否需要自动关闭 directive
 			*/
-			function judgeAutoCloseDirective(item){
-				return !(item.child && item.child.length > 0);
+			function judgeAutoCloseDirective(item,list){
+				//首先要判断一下 有没有子节点了
+				if(item.child && item.child.length>0){
+
+				}
+				if(checkMultiSelectMax(item,list)){
+					return true;
+				}else{
+					return false;
+				}
 			}
 			/*
 				check出结果
@@ -194,6 +215,9 @@ app.directive('threeLink', function(collectionResult) {
 				关闭directive 传出数据
 			*/
 			$scope.closeDirective = function() {
+				//清空结果列表
+				$scope.chooseResultData.length = 0;
+				// 检查结果
 				checkResult($scope.bodyData);
 				$scope.$emit('msg_close_threeLink', $scope.chooseResultData);
 			};
